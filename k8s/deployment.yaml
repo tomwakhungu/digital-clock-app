@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digital-clock
+  labels:
+    app: digital-clock
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: digital-clock
+  template:
+    metadata:
+      labels:
+        app: digital-clock
+    spec:
+      containers:
+      - name: clock
+        image: tomwakhungu/digital-clock:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: digital-clock-service
+spec:
+  type: NodePort
+  selector:
+    app: digital-clock
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30000
